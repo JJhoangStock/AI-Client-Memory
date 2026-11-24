@@ -2,7 +2,7 @@ import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2
 const $=id=>document.getElementById(id);let db,user,customers=[],selected;
 const msg=t=>$('status').textContent=t;const check=r=>{if(r.error)throw r.error;return r.data};
 function run(fn){return async e=>{e?.preventDefault();const b=e?.submitter|| (e?.currentTarget?.tagName==='BUTTON'?e.currentTarget:null);if(b)b.disabled=true;msg('');try{await fn()}catch(err){msg(err.message||String(err))}finally{if(b)b.disabled=false}}}
-db=createClient('https://hypyvklmupwosdorlnco.supabase.co','sb_publishable_oiT3DEuloa5w4WJJCdjSHQ_zrSdxHFU',{auth:{persistSession:false}});
+db=createClient('https://hypyvklmupwosdorlnco.supabase.co','sb_publishable_oiT3DEuIoa5w4WJJCdjSHQ_zrSdxHFU',{auth:{persistSession:false}});
 async function enter(session){user=session.user;$('login').hidden=true;$('app').hidden=false;await load();}
 $('loginForm').onsubmit=run(async()=>{const d=check(await db.auth.signInWithPassword({email:$('email').value,password:$('password').value}));$('password').value='';await enter(d.session)});
 $('signup').onclick=run(async()=>{if(!$('loginForm').reportValidity())return;const d=check(await db.auth.signUp({email:$('email').value,password:$('password').value}));if(d.session)await enter(d.session);else msg('Check your email to confirm the account, then sign in.');});
